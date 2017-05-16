@@ -395,6 +395,11 @@ export interface IEditorOptions {
 	 */
 	suggestLineHeight?: number;
 	/**
+	 * Option to expand suggest docs.
+	 * Defaults to side
+	 */
+	suggestExpandDocs?: 'side' | 'below' | 'none';
+	/**
 	 * Enable selection highlight.
 	 * Defaults to true.
 	 */
@@ -729,6 +734,7 @@ export interface EditorContribOptions {
 	readonly wordBasedSuggestions: boolean;
 	readonly suggestFontSize: number;
 	readonly suggestLineHeight: number;
+	readonly suggestExpandDocs: 'side' | 'below' | 'none';
 	readonly selectionHighlight: boolean;
 	readonly occurrencesHighlight: boolean;
 	readonly codeLens: boolean;
@@ -1003,6 +1009,7 @@ export class InternalEditorOptions {
 			&& a.emptySelectionClipboard === b.emptySelectionClipboard
 			&& a.wordBasedSuggestions === b.wordBasedSuggestions
 			&& a.suggestFontSize === b.suggestFontSize
+			&& a.suggestExpandDocs === b.suggestExpandDocs
 			&& a.suggestLineHeight === b.suggestLineHeight
 			&& a.selectionHighlight === b.selectionHighlight
 			&& a.occurrencesHighlight === b.occurrencesHighlight
@@ -1526,6 +1533,7 @@ export class EditorOptionsValidator {
 			emptySelectionClipboard: _boolean(opts.emptySelectionClipboard, defaults.emptySelectionClipboard),
 			wordBasedSuggestions: _boolean(opts.wordBasedSuggestions, defaults.wordBasedSuggestions),
 			suggestFontSize: _clampedInt(opts.suggestFontSize, defaults.suggestFontSize, 0, 1000),
+			suggestExpandDocs: _stringSet<'side' | 'below' | 'none'>(opts.suggestExpandDocs, defaults.suggestExpandDocs, ['side', 'below', 'none']),
 			suggestLineHeight: _clampedInt(opts.suggestLineHeight, defaults.suggestLineHeight, 0, 1000),
 			selectionHighlight: _boolean(opts.selectionHighlight, defaults.selectionHighlight),
 			occurrencesHighlight: _boolean(opts.occurrencesHighlight, defaults.occurrencesHighlight),
@@ -1932,6 +1940,7 @@ export const EDITOR_DEFAULTS: IValidatedEditorOptions = {
 		wordBasedSuggestions: true,
 		suggestFontSize: 0,
 		suggestLineHeight: 0,
+		suggestExpandDocs: 'side',
 		selectionHighlight: true,
 		occurrencesHighlight: true,
 		codeLens: true,
